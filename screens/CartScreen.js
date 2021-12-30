@@ -11,47 +11,11 @@ import {black, primary, white} from '../utils/Colors';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import {FlatList} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-community/async-storage';
-import {useIsFocused} from '@react-navigation/native';
-import {MakePayment} from './PaymentScreen';
+import {MakePayment} from '../network/PaymentGateway';
+import CountButton from '../components/CountButton';
+import {screenWidth} from '../utils/Dimensions';
 
-const CountButton = ({item, removeItem, addItem, decreaseItem}) => {
-  const [itemcount, setItemCount] = useState(item.count);
-  return (
-    <View style={styles.countBoxStyle}>
-      <TouchableOpacity
-        onPress={() => {
-          if (itemcount > 1) {
-            setItemCount(itemcount - 1);
-            decreaseItem(itemcount);
-          }
-          if (itemcount === 1) {
-            setItemCount(itemcount - 1);
-            removeItem(itemcount);
-          }
-        }}>
-        <Text style={{color: primary, fontSize: 25, marginHorizontal: 10}}>
-          –
-        </Text>
-      </TouchableOpacity>
-      <Text style={styles.buttonTextStyle1}>{itemcount}</Text>
-      <TouchableOpacity
-        onPress={() => {
-          var items = itemcount + 1;
-          setItemCount(items);
-          addItem(items);
-        }}>
-        <Text style={{color: primary, fontSize: 25, marginHorizontal: 10}}>
-          +
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-const CartScreen = ({navigation, route}) => {
-  // const map = route.params.item;
-
-  // console.log(map.length + 'deepak');
-  const [newCount, setCount] = useState(route.params.itemCount);
+const CartScreen = ({navigation}) => {
   const [data1, setData] = useState([]);
   const [obj, setObj] = useState({});
   const [price, setPrice] = useState(0);
@@ -75,9 +39,6 @@ const CartScreen = ({navigation, route}) => {
 
       setPrice(sum);
     });
-
-    // var newCt = await AsyncStorage.getItem('itemCount');
-    // setCount(parseInt(newCt));
   };
 
   const renderItem = ({item}) => {
@@ -106,9 +67,6 @@ const CartScreen = ({navigation, route}) => {
               await AsyncStorage.removeItem('items');
               await AsyncStorage.setItem('items', JSON.stringify(obj));
               setPrice(price - item.price);
-              // await AsyncStorage.setItem('items', JSON.stringify(obj));
-              // var d = await AsyncStorage.getItem('items');
-              // console.log(d);
             }}
             addItem={count => {
               var s = price;
@@ -127,7 +85,14 @@ const CartScreen = ({navigation, route}) => {
     );
   };
 
-  return (
+  return data1.length === 0 ? (
+    <Image
+      source={require('../assets/banners/empty.png')}
+      style={{
+        width: '100%',
+        height: '100%',
+      }}></Image>
+  ) : (
     <View style={styles.container}>
       <View style={{flex: 1}}>
         <View style={{flexDirection: 'row'}}>
@@ -157,46 +122,22 @@ const CartScreen = ({navigation, route}) => {
           </TouchableOpacity>
         </View>
         <View style={{marginTop: 25}}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={styles.viewStyle1}>
             <Text style={{color: black, fontSize: 15}}>Item Total</Text>
             <Text style={{color: black}}>₹{price}</Text>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: 5,
-            }}>
+          <View style={styles.viewStyle1}>
             <Text style={{fontSize: 14}}>Delivery Charges</Text>
             <Text style={{color: black}}>₹49</Text>
           </View>
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginTop: 5,
-          }}>
+        <View style={styles.viewStyle1}>
           <Text style={{fontSize: 14}}>Taxes & charges</Text>
           <Text style={{color: black}}>67.5</Text>
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginTop: 5,
-          }}>
-          <Text
-            style={{
-              fontSize: 17,
-              color: black,
-              fontWeight: '700',
-            }}>
-            Grand Total
-          </Text>
-          <Text style={{fontSize: 17, color: black, fontWeight: '700'}}>
-            ₹{price + 49 + 67}
-          </Text>
+        <View style={styles.viewStyle1}>
+          <Text style={styles.textStyle}>Grand Total</Text>
+          <Text style={styles.textStyle}>₹{price + 49 + 67}</Text>
         </View>
       </View>
       <TouchableOpacity
@@ -204,11 +145,8 @@ const CartScreen = ({navigation, route}) => {
         onPress={() => {
           MakePayment((price + 49 + 67).toString() + '00');
           AsyncStorage.clear();
-          // navigation.push('Main', {screen: 'PaymentScreen'});
         }}>
-        <Text style={{fontSize: 18, color: white, fontWeight: '700'}}>
-          Proceed to Checkout
-        </Text>
+        <Text style={styles.textStyleWhite}>Proceed to Checkout</Text>
       </TouchableOpacity>
     </View>
   );
@@ -239,7 +177,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: black,
     fontWeight: '700',
-    marginRight: 5,
+  },
+  viewStyle1: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 5,
+  },
+  textStyleWhite: {
+    fontSize: 16,
+    color: white,
+    fontWeight: '700',
   },
   buttonTextStyle1: {
     color: 'black',
@@ -258,6 +205,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginLeft: 10,
   },
+  textStyle3: {color: primary, fontSize: 25, marginHorizontal: 10},
   iconStyle: {
     height: 20,
     width: 20,

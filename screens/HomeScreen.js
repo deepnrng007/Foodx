@@ -22,7 +22,10 @@ const HomeScreen = ({navigation}) => {
       <Card
         itemData={item}
         onPress={() => {
-          navigation.navigate('ItemDetails', {itemData: item});
+          navigation.push('Main', {
+            screen: 'ItemDetails',
+            params: {itemData: item},
+          });
         }}
       />
     );
@@ -77,7 +80,6 @@ const HomeScreen = ({navigation}) => {
                 title: 'Restaurant',
               },
             });
-            // navigation.navigate('CardListScreen', {title: 'Restaurant'});
           }}></CategoryBtn>
         <CategoryBtn
           text="Fast-Food"

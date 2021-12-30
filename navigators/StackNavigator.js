@@ -27,6 +27,14 @@ export const MainStackScreen = () => {
         headerTintColor: '#000',
       }}>
       <MainStack.Screen
+        name="ItemDetails"
+        options={({route}) => ({
+          headerBackTitleVisible: false,
+          title: '',
+        })}
+        component={ItemDetails}
+      />
+      <MainStack.Screen
         name="EditProfile"
         options={{
           title: 'Edit Profile',
@@ -41,14 +49,7 @@ export const MainStackScreen = () => {
         })}
         component={CardListScreen}
       />
-      <MainStack.Screen
-        name="ItemDetails"
-        options={({route}) => ({
-          headerBackTitleVisible: false,
-          title: '',
-        })}
-        component={ItemDetails}
-      />
+
       <MainStack.Screen
         name="CartScreen"
         options={({route}) => ({

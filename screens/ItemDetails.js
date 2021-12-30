@@ -67,17 +67,6 @@ const ItemDetails = ({route, navigation}) => {
           await AsyncStorage.setItem('items', JSON.stringify(obj));
           var data = await AsyncStorage.getItem('items');
           setCount(parseInt(Object.keys(JSON.parse(data)).length.toString()));
-          // await AsyncStorage.setItem(
-          //   'itemCount',
-          //   Object.keys(JSON.parse(data)).length.toString(),
-          // );
-
-          // var newCount = await AsyncStorage.getItem('itemCount');
-
-          // setCount(parseInt(newCount));
-          // console.log(JSON.parse(data));
-          // console.log(count);
-          // console.log(Object.values(obj));
         }}></MenuCard>
     );
   };
@@ -128,24 +117,9 @@ const ItemDetails = ({route, navigation}) => {
           refence={refRBSheet}></SheetItems>
       </RBSheet>
       {count > 0 ? (
-        <View
-          flexDirection="row"
-          style={{
-            backgroundColor: primary,
-            padding: 5,
-            height: screenHeight * 0.075,
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
+        <View flexDirection="row" style={styles.viewStyle}>
           <View>
-            <Text
-              style={{
-                color: white,
-                fontWeight: '900',
-                fontSize: 18,
-              }}>
-              {count} item
-            </Text>
+            <Text style={styles.textStyleWhite}>{count} item</Text>
           </View>
           <TouchableOpacity
             style={{
@@ -161,9 +135,7 @@ const ItemDetails = ({route, navigation}) => {
               });
             }}>
             <View flexDirection="row">
-              <Text style={{color: white, fontWeight: '900', fontSize: 18}}>
-                View Cart
-              </Text>
+              <Text style={styles.textStyleWhite}>View Cart</Text>
               <IonIcons
                 name="ios-chevron-forward"
                 size={22}
@@ -210,18 +182,14 @@ const SheetItems = ({item, navigation, itemData, refence}) => {
             onPress={() => {
               count === 1 ? null : setCount(count - 1);
             }}>
-            <Text style={{color: primary, fontSize: 25, marginHorizontal: 10}}>
-              –
-            </Text>
+            <Text style={styles.textStyle}>–</Text>
           </TouchableOpacity>
           <Text style={styles.buttonTextStyle1}>{count}</Text>
           <TouchableOpacity
             onPress={() => {
               setCount(count + 1);
             }}>
-            <Text style={{color: primary, fontSize: 25, marginHorizontal: 10}}>
-              +
-            </Text>
+            <Text style={styles.textStyle}>+</Text>
           </TouchableOpacity>
         </View>
         <TouchableOpacity
@@ -253,6 +221,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  viewStyle: {
+    backgroundColor: primary,
+    padding: 5,
+    height: screenHeight * 0.075,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+
   buttonStyle: {
     flex: 3,
     backgroundColor: primary,
@@ -281,6 +257,11 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     marginLeft: 5,
+  },
+  textStyleWhite: {
+    color: white,
+    fontWeight: '900',
+    fontSize: 18,
   },
   buttonTextStyle1: {
     color: 'black',

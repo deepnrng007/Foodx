@@ -11,7 +11,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import ImagePicker from 'react-native-image-crop-picker'; 
+import ImagePicker from 'react-native-image-crop-picker';
 
 const EditProfileScreen = () => {
   const refRBSheet = useRef();
@@ -91,26 +91,14 @@ const EditProfileScreen = () => {
       <View style={{margin: 20}}>
         <View style={{alignItems: 'center'}}>
           <TouchableOpacity onPress={() => refRBSheet.current.open()}>
-            <View
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 15,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
+            <View style={styles.viewStyle}>
               <ImageBackground
                 source={{
                   uri: image,
                 }}
                 style={{height: 100, width: 100}}
                 imageStyle={{borderRadius: 50}}>
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignSelf: 'center',
-                    flex: 1,
-                  }}>
+                <View style={styles.viewStyle2}>
                   <Icon
                     name="camera"
                     color="#fff"
@@ -174,12 +162,6 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#FFFFFF',
     paddingTop: 20,
-    // borderTopLeftRadius: 20,
-    // borderTopRightRadius: 20,
-    // shadowColor: '#000000',
-    // shadowOffset: {width: 0, height: 0},
-    // shadowRadius: 5,
-    // shadowOpacity: 0.4,
   },
   header: {
     backgroundColor: '#FFFFFF',
@@ -245,5 +227,17 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     color: '#05375a',
     height: 40,
+  },
+  viewStyle: {
+    width: 100,
+    height: 100,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  viewStyle2: {
+    justifyContent: 'center',
+    alignSelf: 'center',
+    flex: 1,
   },
 });
