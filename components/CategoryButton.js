@@ -1,12 +1,13 @@
 import React from 'react';
 import {TouchableOpacity, View, Text, StyleSheet} from 'react-native';
 import Ionicons from 'react-native-vector-icons/MaterialIcons';
+import {primary} from '../utils/Colors';
 
 const CategoryBtn = ({text, iconName, onPress}) => {
   return (
     <TouchableOpacity style={categoryBtnStyles.categoryBtn} onPress={onPress}>
       <View style={categoryBtnStyles.categoryIcon}>
-        <Ionicons name={iconName} size={30} color="#FF6347" />
+        <Ionicons name={iconName} size={30} color={primary} />
       </View>
       <Text style={categoryBtnStyles.categoryBtnTxt}>{text}</Text>
     </TouchableOpacity>
@@ -33,7 +34,7 @@ const categoryBtnStyles = {
   categoryBtnTxt: {
     alignSelf: 'center',
     marginTop: 5,
-    color: '#de4f35',
+    color: primary,
   },
 };
 export default CategoryBtn;

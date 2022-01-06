@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import {View} from 'react-native';
+import {TouchableOpacity, View, Text} from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -12,6 +12,10 @@ import ItemDetails from '../screens/ItemDetails';
 import CartScreen from '../screens/CartScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import HomeScreen from '../screens/HomeScreen';
+import withBadge from '../components/withBadge';
+import AsyncStorage from '@react-native-community/async-storage';
+import {primary} from '../utils/Colors';
+import {AuthContext} from '../Providers/AuthProvider';
 
 const MainStack = createStackNavigator();
 
@@ -106,7 +110,19 @@ export const ProfileStackScreen = ({navigation}) => {
   );
 };
 
+const getItemInCart = async () => {
+  var items = await AsyncStorage.getItem('items');
+  console.log(items);
+  if (items != null) {
+    var obj = JSON.parse(items);
+    var arr = Object.values(obj);
+    return arr.length;
+  }
+  return 0;
+};
 export const HomeStackScreen = ({navigation}) => {
+  const {logout} = useContext(AuthContext);
+
   return (
     <MainStack.Navigator
       screenOptions={{
@@ -123,33 +139,36 @@ export const HomeStackScreen = ({navigation}) => {
         options={{
           title: '',
           headerLeft: () => (
-            <View>
-              <Icon.Button
-                name="ios-menu"
-                size={25}
-                backgroundColor="#fff"
-                color="#000"
-                onPress={() => {}}
-              />
-            </View>
+            <TouchableOpacity>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  paddingHorizontal: 10,
+
+                  alignItems: 'center',
+                }}>
+                <Icon name="ios-location-outline" size={25} color={primary} />
+                <Text
+                  style={{
+                    fontSize: 18,
+                    color: primary,
+                    fontWeight: '900',
+                    paddingHorizontal: 4,
+                  }}>
+                  Gurgaon, Haryana
+                </Text>
+                <Icon name="ios-chevron-down" size={25} color={primary} />
+              </View>
+            </TouchableOpacity>
           ),
           headerRight: () => (
-            <View>
-              <MaterialCommunityIcons.Button
-                name="cart"
+            <TouchableOpacity onPress={logout}>
+              <Icon
+                name="exit-outline"
                 size={25}
-                backgroundColor="#fff"
-                color="#000"
-                onPress={() =>
-                  navigation.push('Main', {
-                    screen: 'CartScreen',
-                    params: {
-                      title: 'Cart',
-                    },
-                  })
-                }
-              />
-            </View>
+                color={primary}
+                style={{paddingRight: 10}}></Icon>
+            </TouchableOpacity>
           ),
         }}
       />

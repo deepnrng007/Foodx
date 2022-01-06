@@ -2,8 +2,9 @@ import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {primary} from '../utils/Colors';
 
-const StarRating = (props) => {
+const StarRating = props => {
   // This array will contain our star tags. We will include this
   // array between the view tag.
   let stars = [];
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   star: {
-    color: '#FF8C00',
+    color: primary,
   },
   text: {
     fontSize: 12,
