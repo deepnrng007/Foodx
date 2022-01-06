@@ -13,13 +13,19 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import {TabNavigator} from './navigators/TabNavigator';
 import {MainStackScreen} from './navigators/StackNavigator';
+import AuthStack from './navigators/AuthStack';
+import {AuthProvider} from './Providers/AuthProvider';
+import NavigationProvider from './Providers/NavigationProvider';
 
 const MainStack = createStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <MainStack.Navigator
+    <AuthProvider>
+      <NavigationProvider />
+      {/* <NavigationContainer>
+        
+        <MainStack.Navigator
         initialRouteName="Tab"
         screenOptions={{
           headerShown: false,
@@ -33,7 +39,8 @@ const App = () => {
         <MainStack.Screen name="Tab" component={TabNavigator} />
         <MainStack.Screen name="Main" component={MainStackScreen} />
       </MainStack.Navigator>
-    </NavigationContainer>
+      </NavigationContainer> */}
+    </AuthProvider>
   );
 };
 

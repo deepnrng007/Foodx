@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   textStyle1: {
     fontSize: 14,
     color: black,
-    fontWeight: '4',
+    fontWeight: '400',
     marginLeft: 5,
   },
   textStyle2: {

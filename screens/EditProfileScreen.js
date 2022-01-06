@@ -12,6 +12,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import ImagePicker from 'react-native-image-crop-picker';
+import {primary} from '../utils/Colors';
 
 const EditProfileScreen = () => {
   const refRBSheet = useRef();
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
   commandButton: {
     padding: 15,
     borderRadius: 10,
-    backgroundColor: '#FF6347',
+    backgroundColor: primary,
     alignItems: 'center',
     marginTop: 10,
   },
@@ -197,7 +198,7 @@ const styles = StyleSheet.create({
   panelButton: {
     padding: 13,
     borderRadius: 10,
-    backgroundColor: '#FF6347',
+    backgroundColor: primary,
     alignItems: 'center',
     marginVertical: 7,
   },

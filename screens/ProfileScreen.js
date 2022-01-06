@@ -4,6 +4,7 @@ import {Avatar, Caption, Title, TouchableRipple} from 'react-native-paper';
 import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/Feather';
 import {ScrollView} from 'react-native-gesture-handler';
+import {primary} from '../utils/Colors';
 
 const ProfileScreen = () => {
   return (
@@ -90,7 +91,7 @@ const MenuItem = ({itemIcon, itemName, onPress}) => {
         onPress;
       }}>
       <View style={profileScreenStyles.menuItem}>
-        <Icon name={itemIcon} size={25} color="#ff6347"></Icon>
+        <Icon name={itemIcon} size={25} color={primary}></Icon>
         <Text style={profileScreenStyles.menuItemText}>{itemName}</Text>
       </View>
     </TouchableRipple>

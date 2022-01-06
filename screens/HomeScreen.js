@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -6,17 +6,43 @@ import {
   StyleSheet,
   ScrollView,
   TextInput,
+  TouchableOpacity,
 } from 'react-native';
 import Swiper from 'react-native-swiper';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import IonIcons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import StarRating from '../components/StarRating';
 import CategoryBtn from '../components/CategoryButton';
 import {FlatList} from 'react-native-gesture-handler';
 import {data} from '../models/data';
 import Card from '../components/Card';
+import {primary, white} from '../utils/Colors';
+import {useIsFocused} from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
+import {BottomButton} from '../components/BottomButton';
 
 const HomeScreen = ({navigation}) => {
+  const [count, setCount] = useState(false);
+  const visible = useIsFocused();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        var i = await AsyncStorage.getItem('items');
+
+        if (i != null) {
+          var data = JSON.parse(i);
+          setCount(parseInt(Object.keys(data).length.toString()));
+        } else {
+          setCount(0);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    fetchData();
+  }, [visible]);
+
   const renderItem = ({item}) => {
     return (
       <Card
@@ -31,142 +57,145 @@ const HomeScreen = ({navigation}) => {
     );
   };
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <View style={styles.searchboxStyle}>
-        <Feather
-          name="search"
-          size={25}
-          style={{marginHorizontal: 10}}
-          color="#FF6347"></Feather>
-        <TextInput
-          placeholder="Restaurant Name"
-          style={{height: 40}}></TextInput>
-      </View>
-      <View style={styles.sliderContainer}>
-        <Swiper
-          height={200}
-          autoplay
-          dotColor="transparent"
-          activeDotColor="transparent">
-          <View style={styles.slide}>
-            <Image
-              source={require('../assets/banners/food-banner1.jpg')}
-              resizeMode="cover"
-              style={styles.sliderImage}></Image>
-          </View>
-          <View style={styles.slide}>
-            <Image
-              source={require('../assets/banners/food-banner2.jpg')}
-              resizeMode="cover"
-              style={styles.sliderImage}></Image>
-          </View>
-          <View style={styles.slide}>
-            <Image
-              source={require('../assets/banners/food-banner3.jpg')}
-              resizeMode="cover"
-              style={styles.sliderImage}></Image>
-          </View>
-        </Swiper>
-      </View>
+    <View>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        <View style={styles.searchboxStyle}>
+          <Feather
+            name="search"
+            size={25}
+            style={{marginHorizontal: 10}}
+            color={primary}></Feather>
+          <TextInput
+            placeholder="Restaurant Name"
+            style={{height: 40}}></TextInput>
+        </View>
+        <View style={styles.sliderContainer}>
+          <Swiper
+            height={200}
+            autoplay
+            dotColor="transparent"
+            activeDotColor="transparent">
+            <View style={styles.slide}>
+              <Image
+                source={require('../assets/banners/food-banner1.jpg')}
+                resizeMode="cover"
+                style={styles.sliderImage}></Image>
+            </View>
+            <View style={styles.slide}>
+              <Image
+                source={require('../assets/banners/food-banner2.jpg')}
+                resizeMode="cover"
+                style={styles.sliderImage}></Image>
+            </View>
+            <View style={styles.slide}>
+              <Image
+                source={require('../assets/banners/food-banner3.jpg')}
+                resizeMode="cover"
+                style={styles.sliderImage}></Image>
+            </View>
+          </Swiper>
+        </View>
 
-      <View style={styles.categoryContainer}>
-        <CategoryBtn
-          text="Restaurants"
-          iconName="local-restaurant"
-          onPress={() => {
-            navigation.push('Main', {
-              screen: 'CardListScreen',
-              params: {
-                title: 'Restaurant',
-              },
-            });
-          }}></CategoryBtn>
-        <CategoryBtn
-          text="Fast-Food"
-          iconName="fastfood"
-          onPress={() => {
-            navigation.push('Main', {
-              screen: 'CardListScreen',
-              params: {
-                title: 'Fast-Food',
-              },
-            });
-          }}></CategoryBtn>
-        <CategoryBtn
-          text="Sweets"
-          iconName="icecream"
-          onPress={() => {
-            navigation.push('Main', {
-              screen: 'CardListScreen',
-              params: {
-                title: 'Sweets',
-              },
-            });
-          }}></CategoryBtn>
-        <CategoryBtn
-          text="Indian"
-          iconName="food-bank"
-          onPress={() => {
-            navigation.push('Main', {
-              screen: 'CardListScreen',
-              params: {
-                title: 'Indian',
-              },
-            });
-          }}></CategoryBtn>
-      </View>
+        <View style={styles.categoryContainer}>
+          <CategoryBtn
+            text="Restaurants"
+            iconName="local-restaurant"
+            onPress={() => {
+              navigation.push('Main', {
+                screen: 'CardListScreen',
+                params: {
+                  title: 'Restaurant',
+                },
+              });
+            }}></CategoryBtn>
+          <CategoryBtn
+            text="Fast-Food"
+            iconName="fastfood"
+            onPress={() => {
+              navigation.push('Main', {
+                screen: 'CardListScreen',
+                params: {
+                  title: 'Fast-Food',
+                },
+              });
+            }}></CategoryBtn>
+          <CategoryBtn
+            text="Sweets"
+            iconName="icecream"
+            onPress={() => {
+              navigation.push('Main', {
+                screen: 'CardListScreen',
+                params: {
+                  title: 'Sweets',
+                },
+              });
+            }}></CategoryBtn>
+          <CategoryBtn
+            text="Indian"
+            iconName="food-bank"
+            onPress={() => {
+              navigation.push('Main', {
+                screen: 'CardListScreen',
+                params: {
+                  title: 'Indian',
+                },
+              });
+            }}></CategoryBtn>
+        </View>
 
-      <View style={[styles.categoryContainer, {marginTop: 10}]}>
-        <CategoryBtn
-          text="Hotels"
-          iconName="hotel"
-          onPress={() => {
-            navigation.push('Main', {
-              screen: 'CardListScreen',
-              params: {
-                title: 'Hotels',
-              },
-            });
-          }}></CategoryBtn>
-        <CategoryBtn
-          text="Drinks"
-          iconName="liquor"
-          onPress={() => {
-            navigation.push('Main', {
-              screen: 'CardListScreen',
-              params: {
-                title: 'Drinks',
-              },
-            });
-          }}></CategoryBtn>
-        <CategoryBtn
-          text="Pizza"
-          iconName="local-pizza"
-          onPress={() => {
-            navigation.push('Main', {
-              screen: 'CardListScreen',
-              params: {
-                title: 'Pizza',
-              },
-            });
-          }}></CategoryBtn>
-        <CategoryBtn
-          text="More"
-          iconName="expand-more"
-          onPress={() => {
-            console.log('expand clicked');
-          }}></CategoryBtn>
-      </View>
+        <View style={[styles.categoryContainer, {marginTop: 10}]}>
+          <CategoryBtn
+            text="Hotels"
+            iconName="hotel"
+            onPress={() => {
+              navigation.push('Main', {
+                screen: 'CardListScreen',
+                params: {
+                  title: 'Hotels',
+                },
+              });
+            }}></CategoryBtn>
+          <CategoryBtn
+            text="Drinks"
+            iconName="liquor"
+            onPress={() => {
+              navigation.push('Main', {
+                screen: 'CardListScreen',
+                params: {
+                  title: 'Drinks',
+                },
+              });
+            }}></CategoryBtn>
+          <CategoryBtn
+            text="Pizza"
+            iconName="local-pizza"
+            onPress={() => {
+              navigation.push('Main', {
+                screen: 'CardListScreen',
+                params: {
+                  title: 'Pizza',
+                },
+              });
+            }}></CategoryBtn>
+          <CategoryBtn
+            text="More"
+            iconName="expand-more"
+            onPress={() => {
+              console.log('expand clicked');
+            }}></CategoryBtn>
+        </View>
 
-      <Text style={styles.textstyle}>Top Picks for you</Text>
-      <View style={{marginHorizontal: 8}}>
-        <FlatList
-          data={data}
-          renderItem={renderItem}
-          nestedScrollEnabled
-          keyExtractor={item => item.id}></FlatList>
-      </View>
-    </ScrollView>
+        <Text style={styles.textstyle}>Top Picks for you</Text>
+        <View style={{marginHorizontal: 8}}>
+          <FlatList
+            data={data}
+            renderItem={renderItem}
+            nestedScrollEnabled
+            keyExtractor={item => item.id}></FlatList>
+        </View>
+      </ScrollView>
+      {count > 0 ? <BottomButton navigation={navigation} /> : <View></View>}
+    </View>
   );
 };
 
@@ -174,13 +203,11 @@ const styles = StyleSheet.create({
   searchboxStyle: {
     flexDirection: 'row',
     alignItems: 'center',
-
     marginHorizontal: 10,
     borderWidth: 0.5,
     borderRadius: 15,
   },
   container: {
-    flex: 1,
     backgroundColor: '#fff',
   },
   sliderContainer: {

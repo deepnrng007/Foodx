@@ -3,6 +3,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {HomeStackScreen, ProfileStackScreen} from './StackNavigator';
+import {primary} from '../utils/Colors';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -10,7 +11,7 @@ export const TabNavigator = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      activeColor="#FF6347"
+      activeColor={primary}
       barStyle={{backgroundColor: 'white'}}>
       <Tab.Screen
         name="Home"
